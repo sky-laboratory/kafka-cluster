@@ -1,0 +1,23 @@
+version: '3.7'
+
+services:
+  apache-app:
+    image: ubuntu:latest
+    stdin_open: true
+    tty: true
+    command:
+      - bash
+      - -c
+      - >
+        apt list --upgradable;
+        apt-get update;
+        apt update;
+        apt install -y git vim gcc curl; 
+        apt-get install -y python3; 
+        apt-get install -y pip;
+        curl -s https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-8.5.2-linux-arm64.tar.gz -o filebeat.tar.gz && tar xvfz filebeat.tar.gz -C /;
+        git clone https://github.com/sky-laboratory/faker_log_gen;
+        cd faker_log_gen;
+        pip3 install -r requirements.txt;
+        python3 apache-fake-log-gen.py -n 0 -o LOG
+        
